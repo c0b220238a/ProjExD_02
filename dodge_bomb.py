@@ -11,6 +11,19 @@ delta = {
     pg.K_LEFT:(-5, 0),
     pg.K_RIGHT:(+5, 0)
 }
+#練習４
+def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
+    """
+    オブジェクトが画面内or画面外を判定し、真理値タプルを返す関数
+    因数rct:こうかとんor爆弾Surfaceのrect
+    戻り値:横方向はみだし判定結果（画面内:true/画面外:false）
+    """
+    yoko, tate = True, True
+    if rct.left < 0 or WIDTH < rct.right:
+        yoko = False
+    if rct.left < 0 or HEIGHT < rct.bottom:
+        tate = False
+    return yoko, tate
 
 
 def main():
@@ -51,15 +64,26 @@ def main():
                 sum_mv[0] += tpl[0]
                 sum_mv[1] += tpl[1]
         
-
+        #練習４
         screen.blit(bg_img, [0, 0])
-        kk_rect.move_ip(sum_mv[0],sum_mv[1])
+        kk_rect.move_ip(sum_mv[0], sum_mv[1])
+        if check_bound(kk_rect) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
+
+
         screen.blit(kk_img, kk_rect)
         #screen.blit(kk_img, [900, 400])
         #練習１
         screen.blit(baku, baku_rect)
         #練習２
         baku_rect.move_ip(vx, vy)
+        yoko, tate = check_bound(baku_rect)
+        if not yoko:
+            vx *= -1
+        if not tate:
+            vy *= -1
+        baku_rect.move_ip(vx, vy)
+
 
 
         pg.display.update()
