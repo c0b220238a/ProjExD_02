@@ -3,7 +3,7 @@ import sys
 import pygame as pg
 
 
-WIDTH, HEIGHT = 1600, 900
+WIDTH, HEIGHT = 800, 600
 #練習３
 delta = {
     pg.K_UP:(0, -5),
@@ -21,7 +21,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     yoko, tate = True, True
     if rct.left < 0 or WIDTH < rct.right:
         yoko = False
-    if rct.left < 0 or HEIGHT < rct.bottom:
+    if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko, tate
 
@@ -33,8 +33,8 @@ def main():
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     kk_rect = kk_img.get_rect() 
-    kk_rect.centerx = 900
-    kk_rect.centery = 400
+    kk_rect.centerx = 400
+    kk_rect.centery = 300
 
     clock = pg.time.Clock()
     #練習１爆弾作成
@@ -56,6 +56,12 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+            
+        if kk_rect.colliderect(baku_rect):
+            print("Game Over")
+            return
+
+
         #練習３
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
@@ -68,7 +74,7 @@ def main():
         screen.blit(bg_img, [0, 0])
         kk_rect.move_ip(sum_mv[0], sum_mv[1])
         if check_bound(kk_rect) != (True, True):
-            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
+            kk_rect.move_ip(-sum_mv[0], -sum_mv[1])
 
 
         screen.blit(kk_img, kk_rect)
@@ -77,6 +83,7 @@ def main():
         screen.blit(baku, baku_rect)
         #練習２
         baku_rect.move_ip(vx, vy)
+        #練習４
         yoko, tate = check_bound(baku_rect)
         if not yoko:
             vx *= -1
