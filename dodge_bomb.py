@@ -1,6 +1,8 @@
 import random
 import sys
 import pygame as pg
+
+
 WIDTH, HEIGHT = 800, 600
 delta = {
     pg.K_UP: (0, -5),
