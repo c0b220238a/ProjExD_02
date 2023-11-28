@@ -20,13 +20,12 @@ def main():
     baku_rect = baku.get_rect() 
     baku_rect.centerx = random.randint(0,WIDTH)
     baku_rect.centery = random.randint(0,HEIGHT)
+    #練習2
+    vx, vy = +5, +5
 
 
 
     tmr = 0
-
-
-
 
 
     while True:
@@ -37,9 +36,12 @@ def main():
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
         screen.blit(baku, baku_rect)
+        baku_rect.move_ip(vx, vy)
+
         pg.display.update()
+
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":
